@@ -1,6 +1,13 @@
+
+
 const { Sequelize } = require('sequelize');
 const path = require('path');
-require('dotenv').config({ path: './config.env' });
+// Load environment variables - only load config.env if it exists (for local development)
+try {
+  require('dotenv').config({ path: './config.env' });
+} catch (error) {
+  console.log('No config.env file found in database config, using environment variables from system');
+}
 
 // Create database file path
 const dbPath = path.join(__dirname, '..', 'database.sqlite');

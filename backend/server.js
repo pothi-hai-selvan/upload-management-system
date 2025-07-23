@@ -2,7 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config({ path: './config.env' });
+// Load environment variables - only load config.env if it exists (for local development)
+try {
+  require('dotenv').config({ path: './config.env' });
+} catch (error) {
+  console.log('No config.env file found, using environment variables from system');
+}
 
 const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/auth');
@@ -11,6 +16,8 @@ const messageRoutes = require('./routes/messages');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+console.log('Environment PORT:', process.env.PORT);
+console.log('Using PORT:', PORT);
 
 // Security middleware
 app.use(helmet());
@@ -96,14 +103,21 @@ app.use((error, req, res, next) => {
 // Start server
 const startServer = async () => {
   try {
+    console.log('Starting server initialization...');
+    
     // Connect to database
+    console.log('Connecting to database...');
     await connectDB();
+    console.log('Database connected successfully');
     
     // Start listening
+    console.log('Starting HTTP server...');
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV}`);
+      console.log(`Binding to: 0.0.0.0:${PORT}`);
       console.log(`Health check: http://localhost:${PORT}/health`);
+      console.log(`Server is ready to accept connections`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
