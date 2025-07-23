@@ -8,6 +8,7 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm start",
     "start:backend": "cd backend && npm start",
     "test:api": "cd backend && node test-api.js",
     "init:db": "node scripts/init-db.js"

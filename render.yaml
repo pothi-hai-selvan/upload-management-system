@@ -4,9 +4,9 @@ services:
     name: upload-management-backend
     env: node
     plan: free
-    nodeVersion: 18
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && PORT=10000 npm start
+    nodeVersion: 20
+    buildCommand: npm install && cd backend && npm install
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -28,7 +28,7 @@ services:
     name: upload-management-frontend
     env: static
     plan: free
-    nodeVersion: 18
+    nodeVersion: 20
     buildCommand: cd frontend && npm install --production=false && npm run build
     staticPublishPath: frontend/dist
     envVars:
