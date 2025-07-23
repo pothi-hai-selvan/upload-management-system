@@ -1,0 +1,29 @@
+{
+  "name": "upload-management-system",
+  "version": "1.0.0",
+  "description": "Complete Upload Management System with React Frontend and Node.js Backend",
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "start:backend": "cd backend && npm start",
+    "test:api": "cd backend && node test-api.js",
+    "init:db": "node scripts/init-db.js"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "upload-management",
+    "react",
+    "nodejs",
+    "express",
+    "mysql",
+    "jwt",
+    "file-upload"
+  ],
+  "author": "",
+  "license": "MIT"
+} 
