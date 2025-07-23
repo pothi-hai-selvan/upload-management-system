@@ -10,6 +10,7 @@ try {
 }
 
 const { connectDB } = require('./config/database');
+const { User } = require('./models');
 const authRoutes = require('./routes/auth');
 const documentRoutes = require('./routes/documents');
 const messageRoutes = require('./routes/messages');
@@ -75,6 +76,26 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Database test endpoint
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const userCount = await User.count();
+    res.json({
+      success: true,
+      message: 'Database test successful',
+      userCount: userCount,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Database test error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Database test failed',
+      error: error.message
+    });
+  }
+});
+
 // Root endpoint for Render health checks
 app.get('/', (req, res) => {
   res.json({
@@ -112,6 +133,56 @@ app.use((error, req, res, next) => {
   });
 });
 
+// Initialize database with default users
+const initializeDatabase = async () => {
+  try {
+    console.log('Initializing database with default users...');
+    
+    // Test users data
+    const users = [
+      {
+        name: 'Admin User',
+        email: 'admin@gmail.com',
+        password: 'admin123',
+        role: 'admin'
+      },
+      {
+        name: 'Test User',
+        email: 'user@gmail.com',
+        password: 'user123',
+        role: 'user'
+      },
+      {
+        name: 'John Doe',
+        email: 'john@gmail.com',
+        password: 'john123',
+        role: 'user'
+      }
+    ];
+
+    for (const userData of users) {
+      // Check if user already exists
+      const existingUser = await User.findOne({
+        where: { email: userData.email }
+      });
+
+      if (existingUser) {
+        console.log(`User already exists: ${userData.email}`);
+      } else {
+        console.log(`Creating user: ${userData.email}`);
+        await User.create(userData);
+      }
+    }
+
+    const userCount = await User.count();
+    console.log(`Database initialized with ${userCount} users`);
+    
+  } catch (error) {
+    console.error('Error initializing database:', error);
+    // Don't exit, just log the error
+  }
+};
+
 // Start server
 const startServer = async () => {
   try {
@@ -121,6 +192,9 @@ const startServer = async () => {
     console.log('Connecting to database...');
     await connectDB();
     console.log('Database connected successfully');
+    
+    // Initialize database with default users
+    await initializeDatabase();
     
     // Start listening
     console.log('Starting HTTP server...');
