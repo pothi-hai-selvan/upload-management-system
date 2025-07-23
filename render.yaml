@@ -6,7 +6,7 @@ services:
     plan: free
     nodeVersion: 18
     buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
+    startCommand: cd backend && PORT=10000 npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -20,6 +20,8 @@ services:
         value: ./uploads
       - key: MAX_FILE_SIZE
         value: 10485760
+      - key: ALLOWED_ORIGINS
+        value: https://upload-management-frontend.onrender.com
 
   # Frontend Static Site
   - type: web
