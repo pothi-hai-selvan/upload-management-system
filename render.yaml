@@ -6,7 +6,7 @@ services:
     plan: free
     nodeVersion: 20
     rootDir: backend
-    buildCommand: npm install
+    buildCommand: npm install && node scripts/init-users.js
     startCommand: npm start
     envVars:
       - key: NODE_ENV
