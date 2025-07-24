@@ -30,8 +30,9 @@ services:
     env: static
     plan: free
     nodeVersion: 20
-    buildCommand: cd frontend && npm install --production=false && npm run build
-    staticPublishPath: frontend/dist
+    rootDir: frontend
+    buildCommand: npm install --production=false && npm run build
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         value: https://upload-management-backend.onrender.com 
