@@ -24,7 +24,7 @@ services:
       - key: ALLOWED_ORIGINS
         value: https://upload-management-frontend.onrender.com
 
-  # Frontend Static Site
+  # Frontend Static Site (Primary Configuration)
   - type: static
     name: upload-management-frontend
     plan: free
@@ -34,3 +34,18 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://upload-management-backend.onrender.com
+
+  # Frontend Web Service (Alternative Configuration)
+  - type: web
+    name: upload-management-frontend-web
+    env: node
+    plan: free
+    nodeVersion: 20
+    rootDir: frontend
+    buildCommand: npm install --production=false && npm run build
+    startCommand: npm start
+    envVars:
+      - key: VITE_API_URL
+        value: https://upload-management-backend.onrender.com
+      - key: PORT
+        value: 10001

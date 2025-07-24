@@ -39,6 +39,15 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',') 
   : ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173', 'http://127.0.0.1:3000'];
 
+// Add common Render domains to allowed origins
+const renderDomains = [
+  'https://upload-management-frontend.onrender.com',
+  'https://upload-management-frontend-web.onrender.com',
+  'https://upload-management-system.onrender.com'
+];
+
+const allAllowedOrigins = [...allowedOrigins, ...renderDomains];
+
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -49,7 +58,12 @@ app.use(cors({
       return callback(null, true);
     }
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Allow Render domains
+    if (origin.includes('onrender.com')) {
+      return callback(null, true);
+    }
+    
+    if (allAllowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       console.log('CORS blocked origin:', origin);
