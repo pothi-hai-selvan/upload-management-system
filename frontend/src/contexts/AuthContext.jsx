@@ -1,6 +1,16 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
 
+// Import the getApiPath function from api service
+const getApiPath = (path) => {
+  const isFullURL = import.meta.env.VITE_API_URL && !import.meta.env.VITE_API_URL.startsWith('/');
+  if (isFullURL) {
+    const cleanPath = path.startsWith('/api/') ? path.substring(4) : path;
+    return `/api${cleanPath}`;
+  }
+  return path;
+};
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -27,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const response = await api.get('/auth/profile');
+      const response = await api.get(getApiPath('/auth/profile'));
       setUser(response.data.data.user);
     } catch (error) {
       console.error('Failed to fetch profile:', error);
@@ -39,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, isAdmin = false) => {
     try {
-      const endpoint = isAdmin ? '/auth/admin/login' : '/auth/login';
+      const endpoint = isAdmin ? getApiPath('/auth/admin/login') : getApiPath('/auth/login');
       const response = await api.post(endpoint, { email, password });
       
       const { token: newToken, user: userData, admin } = response.data.data;
@@ -60,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const response = await api.post('/auth/register', { name, email, password });
+      const response = await api.post(getApiPath('/auth/register'), { name, email, password });
       
       const { token: newToken, user: userData } = response.data.data;
       
