@@ -7,7 +7,6 @@ import toast from 'react-hot-toast';
 export default function UserLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     password: ''
   });
@@ -30,6 +29,7 @@ export default function UserLogin() {
         toast.error(result.message);
       }
     } catch (error) {
+      console.error('Login error:', error);
       toast.error('An error occurred during login');
     } finally {
       setLoading(false);
@@ -76,27 +76,6 @@ export default function UserLogin() {
 
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Name Field */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-violet-200 mb-2">
-                Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-violet-400" />
-                </div>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3 bg-white/10 border border-violet-300/30 rounded-xl text-white placeholder-violet-300/70 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
-                  placeholder="Enter your name"
-                />
-              </div>
-            </div>
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-violet-200 mb-2">

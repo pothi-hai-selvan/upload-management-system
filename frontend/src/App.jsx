@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import LoadingSpinner from './components/LoadingSpinner';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const { isAuthenticated, isAdmin, loading } = useAuth();
@@ -17,27 +18,29 @@ function App() {
   }
 
   return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/" element={!isAuthenticated ? <Landing /> : <Navigate to="/dashboard" />} />
-      <Route path="/user-login" element={!isAuthenticated ? <UserLogin /> : <Navigate to="/dashboard" />} />
-      <Route path="/admin-login" element={!isAuthenticated ? <AdminLogin /> : <Navigate to="/dashboard" />} />
-      <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/dashboard" />} />
-      
-      {/* Protected routes */}
-      <Route path="/dashboard" element={
-        isAuthenticated ? (
-          <Layout>
-            {isAdmin ? <AdminDashboard /> : <Dashboard />}
-          </Layout>
-        ) : (
-          <Navigate to="/login" />
-        )
-      } />
-      
-      {/* Catch all */}
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <ErrorBoundary>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={!isAuthenticated ? <Landing /> : <Navigate to="/dashboard" />} />
+        <Route path="/user-login" element={!isAuthenticated ? <UserLogin /> : <Navigate to="/dashboard" />} />
+        <Route path="/admin-login" element={!isAuthenticated ? <AdminLogin /> : <Navigate to="/dashboard" />} />
+        <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/dashboard" />} />
+        
+        {/* Protected routes */}
+        <Route path="/dashboard" element={
+          isAuthenticated ? (
+            <Layout>
+              {isAdmin ? <AdminDashboard /> : <Dashboard />}
+            </Layout>
+          ) : (
+            <Navigate to="/user-login" />
+          )
+        } />
+        
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </ErrorBoundary>
   );
 }
 
