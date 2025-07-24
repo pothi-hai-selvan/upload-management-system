@@ -18,11 +18,29 @@ const ApiTest = () => {
         password: 'admin123'
       });
       
-      setTestResult(`✅ API Test Successful! Token: ${response.data.token.substring(0, 20)}...`);
+      console.log('✅ Full API Response:', response);
+      
+      // Check the correct response structure
+      const token = response.data?.data?.token || response.data?.token;
+      const admin = response.data?.data?.admin || response.data?.admin;
+      
+      if (token) {
+        setTestResult(`✅ API Test Successful! 
+Token: ${token.substring(0, 20)}...
+Admin: ${admin?.name} (${admin?.email})
+Message: ${response.data?.message}`);
+      } else {
+        setTestResult(`⚠️ API Test Response: ${JSON.stringify(response.data, null, 2)}`);
+      }
+      
       console.log('✅ API Test Result:', response.data);
     } catch (error) {
-      setTestResult(`❌ API Test Failed: ${error.response?.status} - ${error.response?.data?.message || error.message}`);
       console.error('❌ API Test Error:', error);
+      console.error('❌ Error Response:', error.response?.data);
+      
+      setTestResult(`❌ API Test Failed: ${error.response?.status} - ${error.response?.data?.message || error.message}
+      
+Full Error: ${JSON.stringify(error.response?.data || error.message, null, 2)}`);
     } finally {
       setLoading(false);
     }
@@ -47,7 +65,7 @@ const ApiTest = () => {
       
       {testResult && (
         <div className="mt-4 p-3 rounded bg-gray-100">
-          <pre className="text-sm">{testResult}</pre>
+          <pre className="text-sm whitespace-pre-wrap">{testResult}</pre>
         </div>
       )}
     </div>

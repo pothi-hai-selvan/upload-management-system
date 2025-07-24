@@ -44,7 +44,17 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    
+    // Log the complete URL being called
+    const fullUrl = config.baseURL + config.url;
+    console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${fullUrl}`);
+    console.log(`🚀 Request Config:`, {
+      baseURL: config.baseURL,
+      url: config.url,
+      fullUrl: fullUrl,
+      headers: config.headers
+    });
+    
     return config;
   },
   (error) => {
@@ -54,9 +64,15 @@ api.interceptors.request.use(
 
 // Response interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log(`✅ API Response: ${response.status} - ${response.config.url}`);
+    return response;
+  },
   (error) => {
     console.log(`❌ API Error: ${error.response?.status} - ${error.response?.data?.message || error.message}`);
+    console.log(`❌ Error URL: ${error.config?.baseURL}${error.config?.url}`);
+    console.log(`❌ Error Details:`, error.response?.data);
+    
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
