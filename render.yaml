@@ -25,14 +25,12 @@ services:
         value: https://upload-management-frontend.onrender.com
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: upload-management-frontend
-    env: static
     plan: free
-    nodeVersion: 20
     rootDir: frontend
     buildCommand: npm install --production=false && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://upload-management-backend.onrender.com # Updated Thu Jul 24 10:09:39 AM IST 2025
+        value: https://upload-management-backend.onrender.com
