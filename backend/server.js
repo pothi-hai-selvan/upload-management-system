@@ -43,7 +43,9 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 const renderDomains = [
   'https://upload-management-frontend.onrender.com',
   'https://upload-management-frontend-web.onrender.com',
-  'https://upload-management-system.onrender.com'
+  'https://upload-management-system.onrender.com',
+  'https://docky-frontend-uufo.onrender.com',
+  'https://docky-backend-b9a1.onrender.com'
 ];
 
 const allAllowedOrigins = [...allowedOrigins, ...renderDomains];
@@ -58,8 +60,9 @@ app.use(cors({
       return callback(null, true);
     }
     
-    // Allow Render domains
+    // Allow all Render domains
     if (origin.includes('onrender.com')) {
+      console.log('Allowing Render domain:', origin);
       return callback(null, true);
     }
     
@@ -70,7 +73,9 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // Body parsing middleware

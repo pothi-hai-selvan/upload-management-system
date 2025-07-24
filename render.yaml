@@ -22,7 +22,7 @@ services:
       - key: MAX_FILE_SIZE
         value: 10485760
       - key: ALLOWED_ORIGINS
-        value: https://upload-management-frontend.onrender.com
+        value: https://upload-management-frontend.onrender.com,https://docky-frontend-uufo.onrender.com
 
   # Frontend Static Site (Primary Configuration)
   - type: static
@@ -33,7 +33,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://upload-management-backend.onrender.com
+        value: https://docky-backend-b9a1.onrender.com
 
   # Frontend Web Service (Alternative Configuration)
   - type: web
@@ -46,6 +46,6 @@ services:
     startCommand: npm start
     envVars:
       - key: VITE_API_URL
-        value: https://upload-management-backend.onrender.com
+        value: https://docky-backend-b9a1.onrender.com
       - key: PORT
         value: 10001

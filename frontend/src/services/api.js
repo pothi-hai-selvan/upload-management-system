@@ -45,46 +45,46 @@ export const documentApi = {
   upload: (file) => {
     const formData = new FormData();
     formData.append('document', file);
-    return api.post('/documents/upload', formData, {
+    return api.post('/api/documents/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
   },
 
-  getUserDocuments: () => api.get('/documents/my-documents'),
+  getUserDocuments: () => api.get('/api/documents/my-documents'),
 
-  getAllDocuments: () => api.get('/documents/admin/all-documents'),
+  getAllDocuments: () => api.get('/api/documents/admin/all-documents'),
 
-  download: (documentId) => api.get(`/documents/download/${documentId}`, {
+  download: (documentId) => api.get(`/api/documents/download/${documentId}`, {
     responseType: 'blob',
   }),
 
-  delete: (documentId) => api.delete(`/documents/${documentId}`),
+  delete: (documentId) => api.delete(`/api/documents/${documentId}`),
 
   getDocumentsByUser: (userId, email) => {
     const data = userId ? { userId } : { email };
-    return api.post('/documents/admin/user-documents', data);
+    return api.post('/api/documents/admin/user-documents', data);
   },
 };
 
 // Auth API functions
 export const authApi = {
-  register: (userData) => api.post('/auth/register', userData),
-  login: (credentials) => api.post('/auth/login', credentials),
-  adminLogin: (credentials) => api.post('/auth/admin/login', credentials),
-  getProfile: () => api.get('/auth/profile'),
-  getAdminUsers: () => api.get('/auth/admin-users'),
+  register: (userData) => api.post('/api/auth/register', userData),
+  login: (credentials) => api.post('/api/auth/login', credentials),
+  adminLogin: (credentials) => api.post('/api/auth/admin/login', credentials),
+  getProfile: () => api.get('/api/auth/profile'),
+  getAdminUsers: () => api.get('/api/auth/admin-users'),
 };
 
 // Message API functions
 export const messageApi = {
-  sendMessage: (messageData) => api.post('/messages/send', messageData),
-  getInbox: (params) => api.get('/messages/inbox', { params }),
-  getSentMessages: (params) => api.get('/messages/sent', { params }),
-  getMessage: (messageId) => api.get(`/messages/${messageId}`),
-  markAsRead: (messageId) => api.patch(`/messages/${messageId}/read`),
-  deleteMessage: (messageId) => api.delete(`/messages/${messageId}`),
-  getAllMessages: (params) => api.get('/messages/admin/all', { params }),
-  sendBroadcast: (broadcastData) => api.post('/messages/admin/broadcast', broadcastData),
+  sendMessage: (messageData) => api.post('/api/messages/send', messageData),
+  getInbox: (params) => api.get('/api/messages/inbox', { params }),
+  getSentMessages: (params) => api.get('/api/messages/sent', { params }),
+  getMessage: (messageId) => api.get(`/api/messages/${messageId}`),
+  markAsRead: (messageId) => api.patch(`/api/messages/${messageId}/read`),
+  deleteMessage: (messageId) => api.delete(`/api/messages/${messageId}`),
+  getAllMessages: (params) => api.get('/api/messages/admin/all', { params }),
+  sendBroadcast: (broadcastData) => api.post('/api/messages/admin/broadcast', broadcastData),
 }; 
