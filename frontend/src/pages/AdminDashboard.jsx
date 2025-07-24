@@ -501,23 +501,7 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* Instructions */}
-        {!userData && (
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20">
-            <div className="text-center py-12">
-              <div className="w-24 h-24 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-6">
-                <Search className="h-12 w-12 text-violet-300" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Search for User Documents</h3>
-              <p className="text-violet-200 text-lg">
-                Enter a user's email or ID to view their uploaded documents.
-              </p>
-              <p className="text-violet-300 mt-2">
-                You can search by email address or user ID to access any user's document library.
-              </p>
-            </div>
-          </div>
-        )}
+
       </div>
     </div>
   );
