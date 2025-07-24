@@ -17,11 +17,20 @@ const getApiPath = (path) => {
   if (isFullURL) {
     // Remove /api prefix if it exists, then add it
     const cleanPath = path.startsWith('/api/') ? path.substring(4) : path;
-    return `/api${cleanPath}`;
+    const finalPath = `/api${cleanPath}`;
+    console.log(`🔗 API Path Debug: ${path} -> ${finalPath} (Production)`);
+    return finalPath;
   }
   // For development proxy, use the path as is
+  console.log(`🔗 API Path Debug: ${path} (Development)`);
   return path;
 };
+
+// Debug logging
+console.log('🔧 API Configuration Debug:');
+console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('isFullURL:', isFullURL);
+console.log('baseURL:', getBaseURL());
 
 export const api = axios.create({
   baseURL: getBaseURL(),
@@ -35,6 +44,7 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
   (error) => {
@@ -46,6 +56,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(`❌ API Error: ${error.response?.status} - ${error.response?.data?.message || error.message}`);
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
