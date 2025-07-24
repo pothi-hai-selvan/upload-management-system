@@ -24,20 +24,9 @@ services:
       - key: ALLOWED_ORIGINS
         value: https://upload-management-frontend.onrender.com,https://docky-frontend-uufo.onrender.com
 
-  # Frontend Static Site (Primary Configuration)
-  - type: static
-    name: upload-management-frontend
-    plan: free
-    rootDir: frontend
-    buildCommand: npm install --production=false && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://docky-backend-b9a1.onrender.com
-
-  # Frontend Web Service (Alternative Configuration)
+  # Frontend Web Service (React SPA)
   - type: web
-    name: upload-management-frontend-web
+    name: upload-management-frontend
     env: node
     plan: free
     nodeVersion: 20
